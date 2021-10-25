@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
-
+## APP重命名
 class ModelsConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
     name = 'models'
+    verbose_name = '系统管理'

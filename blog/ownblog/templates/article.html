@@ -1,0 +1,1272 @@
+
+<!DOCTYPE html>
+
+
+<html lang="zh-hans" >
+<head>
+    <title>选择文章查看 | 管理后台</title>
+
+    
+<link rel="stylesheet" type="text/css" href="/static/admin/simpleui-x/elementui/theme-chalk/index.css">
+<link rel="stylesheet" type="text/css" href="/static/admin/simpleui-x/fontawesome-free-5.8.1-web/css/all.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css?_=2.7">
+    <link rel="stylesheet" type="text/css" href="/static/admin/simpleui-x/css/base.css?_=2.7">
+    <link rel="stylesheet" type="text/css" href="/static/admin/simpleui-x/theme/simpleui.css">
+
+
+    
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+
+<script type="text/javascript" src="/static/admin/simpleui-x/js/vue.min.js?_=2021.4"></script>
+<script type="text/javascript" src="/static/admin/simpleui-x/elementui/index.js?_=2021.4"></script>
+
+    <script type="text/javascript" src="/static/admin/simpleui-x/js/language.js?_=2.1.2"></script>
+    <script type="text/javascript" src="/static/admin/simpleui-x/locale/en-us.js?_=2.1.2"></script>
+    <script type="text/javascript" src="/static/admin/simpleui-x/locale/zh-hans.js"></script>
+
+    
+    <script type="text/javascript" src="/static/admin/simpleui-x/js/cookie.js"></script>
+    
+    
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css?_=20180905"/>
+
+    
+    
+    
+    
+
+    
+    
+    
+    <script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/urlify.js"></script>
+<script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>
+<script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+
+    
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css?_=20180905"/>
+    
+    
+    
+    <meta name="robots" content="NONE,NOARCHIVE"/>
+    
+    <script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.min.js"></script>
+</head>
+
+
+<body class=" app-article model-article change-list"
+      data-admin-utc-offset=" 28800">
+
+
+
+
+<div id="theme">
+    <link v-if="theme && theme!=''" rel="stylesheet" :href="theme">
+
+    
+</div>
+<script type="text/javascript">
+
+    var fontConfig = new Vue({
+        data: {
+            fontSize: null
+        },
+        watch: {
+            fontSize: function (newValue) {
+                if (newValue != 0) {
+                    var fontStyle = document.getElementById('fontStyle');
+                    if (!fontStyle) {
+                        fontStyle = document.createElement('style');
+                        fontStyle.id = 'fontStyle';
+                        fontStyle.type = 'text/css';
+                        document.head.append(fontStyle);
+                    }
+                    fontStyle.innerHTML = '*{font-size:' + newValue + 'px!important;}'
+
+                } else {
+                    var fontStyle = document.getElementById('fontStyle');
+                    if (fontStyle) {
+                        fontStyle.remove();
+                    }
+                }
+            }
+        },
+        created: function () {
+            var val = getCookie('fontSize');
+            if (val) {
+                this.fontSize = parseInt(val);
+            } else {
+                this.fontSize = 0;
+            }
+        },
+        methods: {}
+    });
+
+
+    new Vue({
+        el: '#theme',
+        data: {
+            theme: '',
+        },
+        created: function () {
+            this.theme = getCookie('theme');
+
+            var self = this;
+            //向父组件注册事件
+            if (parent.addEvent) {
+                parent.addEvent('theme', function (theme) {
+                    self.theme = theme;
+                });
+
+                parent.addEvent('font', function (font) {
+                    fontConfig.fontSize = font;
+                });
+                // 
+            }
+
+        }
+    })
+    window.addEventListener('beforeunload', () => {
+        if (window.beforeLoad) {
+            window.beforeLoad();
+        }
+    });
+
+</script>
+<!-- Container -->
+<div id="container">
+
+    
+    
+    <script id="out_message" type="text/javascript">var messages=[]</script>
+    
+    <script type="text/javascript">
+
+        new Vue({
+            created: function () {
+                var self = this;
+
+                messages.forEach(item => {
+                    setTimeout(function () {
+                        self.$notify({
+                            title: getLanuage('Tips'),
+                            message: item.msg,
+                            type: item.tag,
+                            dangerouslyUseHTMLString: true
+                        });
+                    }, 200);
+                });
+
+            }
+        })
+    </script>
+
+    
+
+    <div class="menu-content">
+        
+    </div>
+    <!-- Content -->
+    <div id="content" class="flex">
+        
+        
+
+        
+        
+
+
+        
+    <style>
+        #content {
+            position: relative;
+        }
+
+        .object-tools {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            height: 50px;
+            z-index: 2;
+        }
+
+        .object-tools .import_link, .object-tools .export_link {
+            color: white !important;
+        }
+
+    </style>
+    
+        <ul class="object-tools">
+            
+                
+            
+        </ul>
+    
+
+    <div id="content-main">
+
+        
+        <div class="module filtered" id="changelist">
+            
+
+
+    <script type="text/javascript">
+        function preSubmit() {
+            $('#changelist-search').find("input[name!='']").each(function () {
+                if ($(this).val() == '') {
+                    $(this).removeAttr('name');
+                }
+            });
+        }
+    </script>
+    
+        <script type="text/javascript">var searchDates={}</script>
+    
+    <!-- search_form.html -->
+    <div id="toolbar">
+        <form id="changelist-search" method="get" onsubmit="preSubmit(this)">
+            <input type="hidden" name="p" value=""/>
+            <div class="simpleui-form"><!-- DIV needed for valid HTML -->
+
+                
+
+                    <el-input size="small" class="simpleui-form-item"
+                              clearable
+                              name="q"
+                              :placeholder="placeholder"
+                              prefix-icon="el-icon-search"
+                              v-model="searchInput" @keyup.enter.native="formSubmit()">
+                    </el-input>
+                
+
+                
+
+                    
+                        
+
+                            <input type="hidden" v-model="category__id__exact" name="category__id__exact"/>
+                            <el-select size="small" class="simpleui-form-item" filterable v-model="category__id__exact" clearable
+                                       placeholder="分类">
+                                
+                                    
+                                        
+                                            <el-option label="工具" value="8"></el-option>
+                                        
+                                            <el-option label="服务器" value="9"></el-option>
+                                        
+                                            <el-option label="apple" value="10"></el-option>
+                                        
+                                            <el-option label="其他" value="16"></el-option>
+                                        
+                                            <el-option label="编程语言" value="17"></el-option>
+                                        
+                                    
+                                
+                            </el-select>
+
+                        
+
+                    
+                        
+
+                            <input type="hidden" v-model="user__id__exact" name="user__id__exact"/>
+                            <el-select size="small" class="simpleui-form-item" filterable v-model="user__id__exact" clearable
+                                       placeholder="发布者">
+                                
+                                    
+                                        
+                                            <el-option label="superman" value="1"></el-option>
+                                        
+                                            <el-option label="panjing" value="2"></el-option>
+                                        
+                                            <el-option label="雨诺" value="3"></el-option>
+                                        
+                                            <el-option label="百岁山" value="4"></el-option>
+                                        
+                                            <el-option label="223450427@qq.com" value="5"></el-option>
+                                        
+                                            <el-option label="demo" value="8"></el-option>
+                                        
+                                            <el-option label="test" value="9"></el-option>
+                                        
+                                            <el-option label="zhangsan" value="10"></el-option>
+                                        
+                                            <el-option label="lisi" value="11"></el-option>
+                                        
+                                            <el-option label="wangwu" value="12"></el-option>
+                                        
+                                            <el-option label="abc" value="13"></el-option>
+                                        
+                                    
+                                
+                            </el-select>
+
+                        
+
+                    
+                
+                <el-button size="small" type="primary" icon="el-icon-search" @click="formSubmit()">搜索</el-button>
+
+
+            
+
+                
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        window.getLanuage = function (key) {
+            if (!window.Lanuages) {
+                return "";
+            }
+            var val = Lanuages[key];
+            if (!val || val == "") {
+                val = key;
+            }
+            return val
+        }
+        Date.prototype.format = function (fmt) {
+            var o = {
+                "M+": this.getMonth() + 1,                 //月份
+                "d+": this.getDate(),                    //日
+                "h+": this.getHours(),                   //小时
+                "m+": this.getMinutes(),                 //分
+                "s+": this.getSeconds(),                 //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds()             //毫秒
+            };
+            if (/(y+)/.test(fmt))
+                fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt))
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+        var searchApp = new Vue({
+            el: '#toolbar',
+            data: {
+                placeholder: '搜索标题',
+                searchInput: '',
+                
+                    
+                        
+                            'category__id__exact': '',
+                        
+                    
+                        
+                            'user__id__exact': '',
+                        
+                    
+                
+            },
+            created: function () {
+                var self = this;
+                var date_field = [];
+                
+                    
+                        
+                    
+                        
+                    
+                
+                $('.form-params').each(function () {
+                    var key = $(this).attr('data-name');
+                    var value = $(this).val();
+                    self[key] = value;
+                });
+                try {
+                    date_field.forEach(key => {
+                        var start = self[key + "__gte"];
+                        var end = self[key + "__lte"];
+                        self[key] = [start, end];
+                    });
+                } catch (e) {
+                    console.warn('日期值回显失败，也许是django版本问题，请至github报告此问题：https://github.com/newpanjing/simpleui/issues');
+                }
+
+            },
+            watch: {
+                
+                    
+                        
+                    
+                        
+                    
+                
+            },
+            methods: {
+
+                changeDate: function (d1, d2) {
+                    console.log(arguments)
+                },
+                changeDatetime: function (d1, d2) {
+                    console.log(arguments)
+                },
+                formSubmit: function () {
+                    preSubmit();
+                    document.getElementById('changelist-search').submit();
+                }
+            }
+        })
+
+    </script>
+
+
+            
+
+
+            <form id="changelist-form" method="post"  novalidate><input type="hidden" name="csrfmiddlewaretoken" value="41RMxTQUBhISJn6GpPH5wKcRsLmMxW1zDOIcY5FqbpIj7won62qaOmfUKVZzgHeK">
+                
+
+                
+
+                    
+                    
+
+<div class="actions">
+
+    <input type="hidden" name="action" value=""/>
+
+    
+
+    
+
+    
+
+    <el-button size="small" data-name="import_admin_action" v-for="item in exts" :key="item.name" @click="extClick(item)">
+        <span :class="getIcon(item.name)"></span>
+        <span v-text="item.name"></span>
+    </el-button>
+
+    
+        
+            <span class="action-counter" data-actions-icnt="10">10 个中 0 个被选</span>
+            
+                <span class="all">选中了 172 个</span>
+                <span class="question">
+            <a href="#"
+               onclick="selectAll()"
+               title="点击此处选择所有页面中包含的对象。">
+                Select all 172 文章管理</a>
+        </span>
+                <span class="clear">
+            <a href="#" onclick="unSelect()">清除选中</a>
+        </span>
+            
+        
+    
+
+    <el-button-group size="small" class="btn-group">
+        
+            <a href="javascript:;" @click="searchDisplay()" class="el-button el-button--default el-button--small"><span
+                    class="el-icon-search"></span></a>
+        
+        <a href="javascript:;" @click="reload()" class="el-button el-button--default el-button--small"><span
+                class="el-icon-refresh"></span></a>
+        <a href="javascript:;" @click="openNewPage()" class="el-button el-button--default el-button--small"><span
+                class="el-icon-news"></span></a>
+
+    </el-button-group>
+
+</div>
+<div id="layer_app">
+    <el-dialog
+            :title="title"
+            :visible.sync="visible"
+            :width="layer.width||'50%'">
+        <el-alert v-if="layer.tips" :title="layer.tips" type="success" :closable="false"></el-alert>
+        <el-form ref="form" :model="params" :label-width="layer.labelWidth||'80px'" size="small">
+            <el-form-item v-for="item in params" :label="item.label"
+                          :rules="[{ required: item.require||false, trigger: 'blur' }]">
+                <el-select v-if="item.type=='select'" :style="{width:item.width}" :size="item.size"
+                           v-model="item.value">
+                    <el-option
+                            v-for="node in item.options"
+                            :key="node.key"
+                            :label="node.label"
+                            :value="node.key">
+                    </el-option>
+                </el-select>
+
+                <el-date-picker
+                        v-else-if="item.type=='date'"
+                        :style="{width:item.width}"
+                        :size="item.size"
+                        v-model="item.value"
+                        type="date">
+                </el-date-picker>
+
+                <el-date-picker
+                        v-else-if="item.type=='datetime'"
+                        :style="{width:item.width}"
+                        :size="item.size"
+                        v-model="item.value"
+                        type="datetime">
+                </el-date-picker>
+
+                <el-rate
+                        v-else-if="item.type=='rate'"
+                        :style="{width:item.width}"
+                        :size="item.size"
+                        v-model="item.value">
+                </el-rate>
+                <el-color-picker
+                        v-else-if="item.type=='color'"
+                        :style="{width:item.width}"
+                        :size="item.size"
+                        v-model="item.value">
+                </el-color-picker>
+                <el-slider
+                        v-else-if="item.type=='slider'"
+                        :style="{width:item.width}"
+                        :size="item.size"
+                        v-model="item.value">
+                </el-slider>
+                <el-switch
+                        v-else-if="item.type=='switch'"
+                        :style="{width:item.width}"
+                        :size="item.size"
+                        v-model="item.value">
+                </el-switch>
+                <el-input-number
+                        v-else-if="item.type=='input_number'"
+                        :style="{width:item.width}"
+                        :size="item.size"
+                        v-model="item.value">
+                </el-input-number>
+
+                <el-checkbox-group
+                        v-else-if="item.type=='checkbox'"
+                        :style="{width:item.width}"
+                        :size="item.size"
+                        v-model="item.value">
+
+                    <el-checkbox v-for="node in item.options" v-model="node.key" :label="node.label"
+                                 :key="node.key"></el-checkbox>
+
+                </el-checkbox-group>
+
+                <el-radio-group
+                        v-else-if="item.type=='radio'"
+                        :style="{width:item.width}"
+                        :size="item.size"
+                        v-model="item.value">
+
+                    <el-radio v-for="node in item.options" v-model="node.key" :label="node.label"
+                              :key="node.key"></el-radio>
+
+                </el-radio-group>
+
+                <el-input v-else v-model="item.value" :type="item.type" :style="{width:item.width}"
+                          :size="item.size"></el-input>
+            </el-form-item>
+        </el-form>
+
+        <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="layerSubmit()" v-text="layer.confirm_button||'确定'"></el-button>
+            <el-button @click="visible = false" v-text="layer.cancel_button||'取消'"></el-button>
+        </span>
+    </el-dialog>
+</div>
+<script type="text/javascript" src="/static/admin/simpleui-x/automatic/dicts.js"></script>
+<script type="text/javascript" src="/static/admin/simpleui-x/automatic/segment.js"></script>
+<script type="text/javascript" src="/static/admin/simpleui-x/js/axios.min.js"></script>
+<script type="text/javascript">
+
+    const layerApp = new Vue({
+        el: '#layer_app',
+        data: {
+            visible: false,
+            title: '弹出层',
+            params: [],
+            layer: {},
+            rules: [],
+            action:''
+        },
+        methods: {
+            layerSubmit() {
+                const self = this;
+                //校验
+                for (let key in self.params) {
+                    let item = self.params[key];
+                    if (item.require) {
+                        if (!item.value || item.value == '' || item.length == 0) {
+                            self.$message.error(`"${item.label}" Can't be empty.`)
+                            return;
+                        }
+                    }
+                }
+
+                //开始提交
+                let data = new FormData();
+                //方法名
+                data.append('_action', self.action);
+                let selecteds = [];
+                $("#result_list .selected input[name='_selected_action']").each((index, item) => selecteds.push(item.value));
+                data.append('_selected', selecteds.join(','));
+                //获取选中的数据
+
+                data.append('csrfmiddlewaretoken', document.querySelector('[name="csrfmiddlewaretoken"]').value);
+                for (let key in self.params) {
+                    let item = self.params[key];
+                    if (item.value) {
+                        data.append(item.key, item.value);
+                    }
+                }
+
+                axios.post('None', data).then(res => {
+                    if(res.data.status=='success'){
+                        self.visible = false;
+                        //1.5s 后刷新
+                        setTimeout(() => window.location.reload(), 1000);
+                    }
+                    self.$message({
+                      message: res.data.msg,
+                      type: res.data.status
+                    });
+                }).catch(err => self.$message.error(err));
+            }
+        }
+    })
+
+    //弹出层处理
+    function layer(data,action) {
+        layerApp.layer = data.layer;
+        layerApp.title = data.layer.title;
+        layerApp.params = data.layer.params;
+        layerApp.action = action;
+
+        layerApp.$nextTick(() => {
+            layerApp.visible = true;
+        });
+
+    }
+
+    function actionsCleaning(name) {
+        $("#changelist-form input[name='action']").val(name);
+        $("#changelist-form [name='_save']").removeAttr('name');
+        $("#changelist-form [name!='']").each(function () {
+            var obj = $(this);
+            if (obj.attr('name') && obj.attr('name').indexOf('form-') == 0) {
+                obj.removeAttr('name');
+            }
+        });
+    }
+
+    var _action = new Vue({
+        el: '.actions',
+        data: {
+            select_across: 0,
+            file_format: 1,
+            show: true,
+            options: [{
+                value: 0,
+                label: 'csv'
+            }, {
+                value: 1,
+                label: 'xls'
+            }, {
+                value: 2,
+                label: 'xlsx'
+            }, {
+                value: 3,
+                label: 'tsv'
+            }, {
+                value: 4,
+                label: 'ods'
+            }, {
+                value: 5,
+                label: 'json'
+            }, {
+                value: 6,
+                label: 'yaml'
+            }, {
+                value: 7,
+                label: 'html'
+            }],
+            customButton:{},
+            exts: []
+        },
+        created() {
+            if (localStorage && typeof (localStorage.searchStatus) != 'undefined') {
+                this.show = localStorage.searchStatus == 'true';
+            }
+        },
+        watch: {
+            'show': function (newValue) {
+                obj = document.querySelector('.xfull')
+                if (!newValue) {
+                    //隐藏
+                    document.getElementById('toolbar').style.display = 'none';
+                    if (obj) {
+                        obj.style.display = 'none';
+                    }
+                } else {
+                    //显示
+                    document.getElementById('toolbar').style.display = 'inherit';
+                    if (obj) {
+                        obj.style.display = 'inherit';
+                    }
+                }
+                if (localStorage) {
+                    localStorage['searchStatus'] = newValue;
+                }
+            }
+        },
+        methods: {
+            searchDisplay: function () {
+                this.show = !this.show;
+            },
+            reload: function () {
+                window.location.reload()
+            },
+            openNewPage: function () {
+                window.open(window.location.href)
+            },
+            getIcon: getIcon,
+            extClick: function (item) {
+                window.location.href = item.url;
+            },
+            formSubmit: function () {
+                $("#changelist-form").submit();
+            },
+            delSelected: function (name) {
+                actionsCleaning(name);
+                var self = this;
+
+                // 增加非空判断！
+                if ($("#changelist-form").serializeArray().length <= 2) {
+                    this.$message.error(getLanuage("Please select at least one option!"));
+                    return;
+                }
+
+                //#67 #66 修复删除问题，改为弹出确认
+
+                this.$confirm(getLanuage('Are you sure you want to delete the selected?'))
+                    .then(_ => {
+                        self.formSubmit();
+                    }).catch(_ => {
+
+                });
+            }
+        }
+    });
+
+    function selectAll() {
+        _action.select_across = 1;
+    }
+
+    function unSelect() {
+        _action.select_across = 0;
+    }
+
+
+    $(function () {
+        action_btns = $(".actions button").not('.stop-submit');
+        action_btns.click(function () {
+            var url = $(this).attr("url");
+            var eid = $(this).attr('eid');
+            var confirm = $(this).attr('confirm');
+            var checkbox_checked = $(".action-checkbox input:checked").length;
+            var data_name = $(this).attr('data-name');
+            var _vue = new Vue();
+
+            //这边处理弹出层对话框
+            if (eid) {
+                for (var i in _action.customButton) {
+                    var temp = _action.customButton[i];
+                    if (temp.eid == eid && temp.layer) {
+                        layer(temp,i);
+                        return;
+                    }
+                }
+            }
+
+            //TODO 需要做国际化
+            if (checkbox_checked == 0 && data_name != "add_item"&&!_action.customButton[data_name].action_url) {
+                _vue.$alert(getLanuage("Please select at least one option!"), '', {
+                    type: 'warning'
+                })
+            } else
+            if (confirm) {
+                _vue.$confirm(confirm, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => done.call(this));
+
+            } else {
+                done.call(this)
+            }
+
+            function done() {
+
+                if (eid) {
+                    for (var i in _action.customButton) {
+                        var temp = _action.customButton[i];
+                        if (temp.eid == eid) {
+                            if (typeof (temp.action_type) != 'undefined') {
+
+                                if (!temp.action_url) {
+                                    this.$notify({
+                                        title: 'error',
+                                        message: 'action must contain attributes:action_url! ',
+                                        type: 'error',
+                                        dangerouslyUseHTMLString: true
+                                    });
+                                    return;
+                                }
+
+                                switch (temp.action_type) {
+                                    case 0:
+                                        window.location.href = temp.action_url;
+                                        break;
+                                    case 1:
+                                        parent.window.app.openTab({
+                                            url: temp.action_url,
+                                            icon: temp.icon || 'fa fa-file',
+                                            name: temp.short_description,
+                                            breadcrumbs: []
+                                        });
+                                        break;
+                                    case 2:
+                                        window.open(temp.action_url);
+                                        break;
+                                }
+                                console.log('中断后续操作');
+                                return;
+                            }
+                            //终止执行
+                            break;
+                        }
+                    }
+                }
+                if (url) {
+                    window.location.href = url;
+                    return;
+                }
+
+                if ($(this).attr('data-name')) {
+                    var name = $(this).attr("data-name");
+                    actionsCleaning(name);
+                }
+                $("#changelist-form").submit();
+            }
+        });
+    });
+</script>
+
+                    
+
+                    
+
+
+<div class="results">
+    <table id="result_list">
+        <thead>
+        <tr>
+            
+                <th scope="col"  class="sortable column-id">
+                    
+                        
+                    
+                    <div class="text">
+                        <a href="?o=0">ID</a></div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col"  class="sortable column-sid">
+                    
+                        
+                    
+                    <div class="text">
+                        <a href="?o=1">短ID</a></div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col"  class="column-title_url">
+                    
+                    <div class="text">
+                        <span>标题</span></div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col"  class="column-comment_count">
+                    
+                    <div class="text">
+                        <span>评论数</span></div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col"  class="sortable column-category">
+                    
+                        
+                    
+                    <div class="text">
+                        <a href="?o=4">分类</a></div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col"  class="sortable column-user">
+                    
+                        
+                    
+                    <div class="text">
+                        <a href="?o=5">发布者</a></div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col"  class="sortable column-hits">
+                    
+                        
+                    
+                    <div class="text">
+                        <a href="?o=6">点击量</a></div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col"  class="sortable column-tags">
+                    
+                        
+                    
+                    <div class="text">
+                        <a href="?o=7">标签</a></div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col"  class="sortable column-top">
+                    
+                        
+                    
+                    <div class="text">
+                        <a href="?o=8">置顶</a></div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col"  class="sortable column-createDate">
+                    
+                        
+                    
+                    <div class="text">
+                        <a href="?o=9">创建日期</a></div>
+                    <div class="clear"></div>
+                </th>
+        </tr>
+        </thead>
+        <tbody>
+        
+            
+            <tr class="row1">
+                
+                    <th class="field-id"><a href="/admin/article/article/185/change/">185</a></th>
+                
+                    <td class="field-sid"><a href="/admin/article/article/185/change/">Q7WUsSLC</a></td>
+                
+                    <td class="field-title_url"><a href="/admin/article/article/185/change/"><a href="/article/Q7WUsSLC" target="_blank">Python雪花id生成算法</a></a></td>
+                
+                    <td class="field-comment_count">3</td>
+                
+                    <td class="field-category nowrap">编程语言</td>
+                
+                    <td class="field-user nowrap">panjing</td>
+                
+                    <td class="field-hits">1374</td>
+                
+                    <td class="field-tags">ID,BITS,WORKER,python,coding</td>
+                
+                    <td class="field-top">否</td>
+                
+                    <td class="field-createDate nowrap">2021年7月2日 11:29</td>
+                
+            </tr>
+        
+            
+            <tr class="row2">
+                
+                    <th class="field-id"><a href="/admin/article/article/184/change/">184</a></th>
+                
+                    <td class="field-sid"><a href="/admin/article/article/184/change/">AuVmybS6</a></td>
+                
+                    <td class="field-title_url"><a href="/admin/article/article/184/change/"><a href="/article/AuVmybS6" target="_blank">macOS12 brew 报错 提示不支持解决办法</a></a></td>
+                
+                    <td class="field-comment_count">0</td>
+                
+                    <td class="field-category nowrap">编程语言</td>
+                
+                    <td class="field-user nowrap">panjing</td>
+                
+                    <td class="field-hits">1215</td>
+                
+                    <td class="field-tags">Homebrew,brew,usr,local,Library</td>
+                
+                    <td class="field-top">否</td>
+                
+                    <td class="field-createDate nowrap">2021年6月8日 15:21</td>
+                
+            </tr>
+        
+            
+            <tr class="row1">
+                
+                    <th class="field-id"><a href="/admin/article/article/182/change/">182</a></th>
+                
+                    <td class="field-sid"><a href="/admin/article/article/182/change/">fIH9X807</a></td>
+                
+                    <td class="field-title_url"><a href="/admin/article/article/182/change/"><a href="/article/fIH9X807" target="_blank">nodejs 几行代码实现tcp端口转发</a></a></td>
+                
+                    <td class="field-comment_count">1</td>
+                
+                    <td class="field-category nowrap">编程语言</td>
+                
+                    <td class="field-user nowrap">panjing</td>
+                
+                    <td class="field-hits">806</td>
+                
+                    <td class="field-tags">net,端口,耗力,nodejs,javascriptvar</td>
+                
+                    <td class="field-top">否</td>
+                
+                    <td class="field-createDate nowrap">2021年5月17日 11:03</td>
+                
+            </tr>
+        
+            
+            <tr class="row2">
+                
+                    <th class="field-id"><a href="/admin/article/article/181/change/">181</a></th>
+                
+                    <td class="field-sid"><a href="/admin/article/article/181/change/">daJL7uKi</a></td>
+                
+                    <td class="field-title_url"><a href="/admin/article/article/181/change/"><a href="/article/daJL7uKi" target="_blank">mybatis plus 根据model的字段，自动拼生成条件</a></a></td>
+                
+                    <td class="field-comment_count">2</td>
+                
+                    <td class="field-category nowrap">编程语言</td>
+                
+                    <td class="field-user nowrap">panjing</td>
+                
+                    <td class="field-hits">974</td>
+                
+                    <td class="field-tags">model,public,QueryWrapper,生成,自动</td>
+                
+                    <td class="field-top">否</td>
+                
+                    <td class="field-createDate nowrap">2021年5月6日 10:53</td>
+                
+            </tr>
+        
+            
+            <tr class="row1">
+                
+                    <th class="field-id"><a href="/admin/article/article/180/change/">180</a></th>
+                
+                    <td class="field-sid"><a href="/admin/article/article/180/change/">rqPBGOad</a></td>
+                
+                    <td class="field-title_url"><a href="/admin/article/article/180/change/"><a href="/article/rqPBGOad" target="_blank">RedisTemplate 报错：redisTemplate  java.util.concurrent.RejectedExecutionException: event executor terminated</a></a></td>
+                
+                    <td class="field-comment_count">0</td>
+                
+                    <td class="field-category nowrap">编程语言</td>
+                
+                    <td class="field-user nowrap">panjing</td>
+                
+                    <td class="field-hits">1308</td>
+                
+                    <td class="field-tags">线程,redisTemplate,java,util,concurrent</td>
+                
+                    <td class="field-top">否</td>
+                
+                    <td class="field-createDate nowrap">2021年4月14日 10:07</td>
+                
+            </tr>
+        
+            
+            <tr class="row2">
+                
+                    <th class="field-id"><a href="/admin/article/article/179/change/">179</a></th>
+                
+                    <td class="field-sid"><a href="/admin/article/article/179/change/">Uz7U7YE3</a></td>
+                
+                    <td class="field-title_url"><a href="/admin/article/article/179/change/"><a href="/article/Uz7U7YE3" target="_blank">nginx转发不支持 websocket原因</a></a></td>
+                
+                    <td class="field-comment_count">0</td>
+                
+                    <td class="field-category nowrap">服务器</td>
+                
+                    <td class="field-user nowrap">panjing</td>
+                
+                    <td class="field-hits">942</td>
+                
+                    <td class="field-tags">Upgrade,proxy,set,header,websocket</td>
+                
+                    <td class="field-top">否</td>
+                
+                    <td class="field-createDate nowrap">2021年4月1日 16:20</td>
+                
+            </tr>
+        
+            
+            <tr class="row1">
+                
+                    <th class="field-id"><a href="/admin/article/article/178/change/">178</a></th>
+                
+                    <td class="field-sid"><a href="/admin/article/article/178/change/">TQy6MFI0</a></td>
+                
+                    <td class="field-title_url"><a href="/admin/article/article/178/change/"><a href="/article/TQy6MFI0" target="_blank">windows ffmpeg libx264 问题解决办法</a></a></td>
+                
+                    <td class="field-comment_count">0</td>
+                
+                    <td class="field-category nowrap">编程语言</td>
+                
+                    <td class="field-user nowrap">panjing</td>
+                
+                    <td class="field-hits">772</td>
+                
+                    <td class="field-tags">编译,ffmpeg,下载,地址,耗力</td>
+                
+                    <td class="field-top">否</td>
+                
+                    <td class="field-createDate nowrap">2021年3月20日 11:19</td>
+                
+            </tr>
+        
+            
+            <tr class="row2">
+                
+                    <th class="field-id"><a href="/admin/article/article/177/change/">177</a></th>
+                
+                    <td class="field-sid"><a href="/admin/article/article/177/change/">qiqdMsKX</a></td>
+                
+                    <td class="field-title_url"><a href="/admin/article/article/177/change/"><a href="/article/qiqdMsKX" target="_blank">Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available</a></a></td>
+                
+                    <td class="field-comment_count">4</td>
+                
+                    <td class="field-category nowrap">编程语言</td>
+                
+                    <td class="field-user nowrap">panjing</td>
+                
+                    <td class="field-hits">2727</td>
+                
+                    <td class="field-tags">spring,boot,pom,xml,xmlorg</td>
+                
+                    <td class="field-top">否</td>
+                
+                    <td class="field-createDate nowrap">2021年1月7日 10:28</td>
+                
+            </tr>
+        
+            
+            <tr class="row1">
+                
+                    <th class="field-id"><a href="/admin/article/article/176/change/">176</a></th>
+                
+                    <td class="field-sid"><a href="/admin/article/article/176/change/">yzw6wqjH</a></td>
+                
+                    <td class="field-title_url"><a href="/admin/article/article/176/change/"><a href="/article/yzw6wqjH" target="_blank">Python装饰器实现参数校验</a></a></td>
+                
+                    <td class="field-comment_count">3</td>
+                
+                    <td class="field-category nowrap">编程语言</td>
+                
+                    <td class="field-user nowrap">panjing</td>
+                
+                    <td class="field-hits">2210</td>
+                
+                    <td class="field-tags">def,params,view,func,key</td>
+                
+                    <td class="field-top">否</td>
+                
+                    <td class="field-createDate nowrap">2020年11月17日 11:36</td>
+                
+            </tr>
+        
+            
+            <tr class="row2">
+                
+                    <th class="field-id"><a href="/admin/article/article/175/change/">175</a></th>
+                
+                    <td class="field-sid"><a href="/admin/article/article/175/change/">k44YxbgO</a></td>
+                
+                    <td class="field-title_url"><a href="/admin/article/article/175/change/"><a href="/article/k44YxbgO" target="_blank">Vue 自定义指令实现 自动宽高</a></a></td>
+                
+                    <td class="field-comment_count">0</td>
+                
+                    <td class="field-category nowrap">编程语言</td>
+                
+                    <td class="field-user nowrap">panjing</td>
+                
+                    <td class="field-hits">1692</td>
+                
+                    <td class="field-tags">el,style,window,100,javascriptVue</td>
+                
+                    <td class="field-top">否</td>
+                
+                    <td class="field-createDate nowrap">2020年11月4日 20:22</td>
+                
+            </tr>
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+                
+                
+
+
+<div id="pagination">
+    
+        <el-pagination
+                background
+                @current-change="handleCurrentChange"
+                :current-page="0+1"
+                :page-size="10"
+                layout="total,prev, pager, next, jumper"
+                :total="172">
+        </el-pagination>
+    
+</div>
+<script type="text/javascript">
+    $(function () {
+        new Vue({
+            el: "#pagination",
+            data: {},
+            methods: {
+                handleCurrentChange:function (page) {
+                    page_go(page-1);
+                }
+            }
+        })
+
+        function page_go(p) {
+            $("#changelist-search input[name='p']").val(p);
+            $("#changelist-search").submit();
+        }
+
+    });
+</script>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(".object-tools").hide().find('li a').each(function () {
+            _action.exts.push({
+                name: $(this).text(),
+                url: $(this).attr('href')
+            })
+        })
+        if(parent.addEvent){
+            parent.addEvent('title','文章管理')
+        }
+    </script>
+
+        
+        <br class="clear"/>
+    </div>
+    <!-- END Content -->
+
+    
+    <div id="footer"></div>
+    
+</div>
+<!-- END Container -->
+</body>
+</html>

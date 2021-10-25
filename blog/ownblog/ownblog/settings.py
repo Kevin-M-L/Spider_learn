@@ -28,8 +28,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+COMPRESS_ENABLED = True
 
 # Application definition
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'compressor.finders.CompressorFinder',)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,6 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'models',
     'simpleui',
+    'article',
+    'compressor',
+    'mdeditor',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +74,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'common_tag': 'ownblog.templatetags.common',
+            }
         },
     },
 ]
@@ -132,15 +143,35 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+COMPRESS_ROOT = STATIC_ROOT
+UEDITOR_UPLOAD_PREFIX = "/static/upload/"
+UEDITOR_UPLOAD_DIR = os.path.join(BASE_DIR, 'static/upload/')
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# 全文检索配置
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'ownblog.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+        'INCLUDE_SPELLING': True
+    }
+}
+HAYSTACK_DEFAULT_OPERATOR = 'OR'
+# 添加此项，当数据库改变时，会自动更新索引，非常方便
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
 
 # redis
 REDIS_HOST = '127.0.0.1'
 REDIS_PORT = '6379'
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+MEDIA_URL = '/media/'
+
+
 
