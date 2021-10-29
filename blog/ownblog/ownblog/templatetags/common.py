@@ -10,6 +10,7 @@ from article.models import Article
 from article.models import Category
 from models.models import Site
 from models.models import Menu
+from models.models import SubMenu
 from models.models import Notice
 from models.models import Config
 
@@ -21,7 +22,8 @@ def get_cache():
     return {
         'sites': list(Site.objects.order_by("sort").values('site', 'name')),
         'categorys': list(Category.objects.filter(display=True).order_by("sort").values('name', 'alias')),
-        'menus': list(Menu.objects.filter(display=True).order_by('sort').values('name', 'icon', 'href')),
+        'menus': list(Menu.objects.filter(display=True).order_by('sort').values('id', 'name', 'href', 'hassub', 'icon')),
+        'submenus': list(SubMenu.objects.filter(subdisplay=True).order_by('subsort').values('menu_id', 'subname', 'subhref')),
         'notice': Notice.objects.values('createDate', 'content').last(),
         'configs': get_config('site')
     }

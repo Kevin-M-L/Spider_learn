@@ -50,11 +50,28 @@
                     <img class="logo" src="{% static 'images/logo.png' %}">
                 </a>
                 {% for menu in commonData.menus %}
-                    <li><a class="af nav-af" href="{{ menu.href }}">
-                        <span class="{{ menu.icon }}"></span>
-                        <span>{{ menu.name }}</span>
-                    </a></li>
+                    <ul class="nav navbar-nav">
+                        <ul class="sub">
+                    {% for submenu in commonData.submenus %}
+                        {% if menu.id == submenu.menu_id %}
+                            <li><a class="af nav-af" href="{{ submenu.subhref }}">
+                                <span>{{ submenu.subname }}</span>
+                            </a></li>
+                        {% endif %}
+
+                    {% endfor %}
+                        </ul>
+
+                        <li class="{% if menu.hassub == True %}menu{% endif %}" >
+                            <a class="af nav-af" href="{{ menu.href }}">
+                                <span class="{{ menu.icon }}"></span>
+                                <span>{{ menu.name }}</span>
+                            </a>
+                        </li>
+                    </ul>
                 {% endfor %}
+
+
             </ul>
             <ul class="nav navbar-right navbar-userinfo">
                 {% if request.session.member %}

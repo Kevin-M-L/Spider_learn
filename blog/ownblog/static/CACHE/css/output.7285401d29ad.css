@@ -190,7 +190,7 @@ header .top {
   border-top: 1px solid #e2e2e2;
 }
 .footer-top {
-  background-image: url('../images/grid_bg.png');
+  background-image: url('/static/images/grid_bg.png?ed1f85645061');
   background-repeat: repeat-x;
   background-color: #242a31;
   color: white;
@@ -565,7 +565,7 @@ header .top {
   margin: 10px auto;
 }
 .footer .qrcode {
-  background: url("../images/qrcode.png") no-repeat;
+  background: url("/static/images/qrcode.png?ed1f85645061") no-repeat;
   background-size: cover;
   width: 100px;
   height: 100px;
@@ -816,15 +816,17 @@ header .top {
     top: 50px;
     background-color:#333;
     display: none;
-    z-index: 9;
 }
 .sub li{
     padding: 10px 15px;
 }
-.menu:before { position: absolute; content: ""; top: 22px; right: 5px; background: url(../images/jt.png) no-repeat; width: 8px; height: 8px; -ms-transition: all .5s ease; -moz-transition: all .5s ease; -webkit-transition: all .5s ease; -o-transition: all .5s ease; transition: all .5s ease; }
+.menu:before { position: absolute; content: ""; top: 22px; right: 5px; background: url(/static/images/jt.png?b7a7739c22ac) no-repeat; width: 8px; height: 8px; -ms-transition: all .5s ease; -moz-transition: all .5s ease; -webkit-transition: all .5s ease; -o-transition: all .5s ease; transition: all .5s ease; }
 .menu:hover:before { transform: rotate(180deg) }/*旋转*/
 
-
-.nav :hover ul.sub{
-  display: block;
-}
+li:hover a { color: #00c1de }
+ul.sub { overflow: hidden; position: absolute; left: 0; top: 50px; background: #1C2327; display: none; z-index: 9 }
+ul.sub li { height: 30px; line-height: 30px; font-size: 14px; }
+ul.sub li:last-child { padding-bottom: 10px }
+ul.sub li a { color: #FFF }
+ul.sub li a:hover { color: #00c1de }
+li:hover ul.sub { display: block }

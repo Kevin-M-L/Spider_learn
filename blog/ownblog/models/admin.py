@@ -44,7 +44,7 @@ class PageAdmin(admin.ModelAdmin):
 
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'icon', 'href', 'sort', "display")
+    list_display = ('id', 'name', 'icon','createDate', 'href', 'sort', 'display')
     list_display_links = ('id', 'name')
     search_fields = ('name',)
     list_editable = ('display', 'sort')
@@ -54,6 +54,17 @@ class MenuAdmin(admin.ModelAdmin):
         super(MenuAdmin, self).save_model(request, obj, form, change)
         cache.delete(cache.CACHE_COMMON_KEY)
 
+@admin.register(SubMenu)
+class SubMenuAdmin(admin.ModelAdmin):
+    list_display = ('id', 'subname',  'subhref', 'createDate', 'subsort', 'subdisplay', 'menu')
+    list_display_links = ('id', 'subname')
+    search_fields = ('subname',)
+    list_editable = ('subdisplay', 'subsort')
+    ordering = ('subsort',)
+
+    def save_model(self, request, obj, form, change):
+        super(SubMenuAdmin, self).save_model(request, obj, form, change)
+        cache.delete(cache.CACHE_COMMON_KEY)
 
 @admin.register(Notice)
 class NoticeAdmin(admin.ModelAdmin):

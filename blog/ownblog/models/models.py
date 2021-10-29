@@ -58,8 +58,10 @@ class Page(models.Model):
         return self.title
 
 
+
 class Menu(models.Model):
     name = models.CharField(max_length=16, verbose_name='菜单名')
+    hassub = models.BooleanField(verbose_name='是否有子菜单', default=True, db_index=True)
     icon = models.CharField(max_length=32, verbose_name='图标字体', null=True, blank=True)
     href = models.CharField(max_length=128, verbose_name='链接地址')
     createDate = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
@@ -72,6 +74,21 @@ class Menu(models.Model):
 
     def __str__(self):
         return self.name
+
+class SubMenu(models.Model):
+    subname = models.CharField(max_length=16, verbose_name='子菜单名')
+    subhref = models.CharField(max_length=128, verbose_name='链接地址')
+    createDate = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
+    subdisplay = models.BooleanField(verbose_name='显示', default=True, db_index=True)
+    subsort = models.IntegerField(verbose_name='排序', default=0, db_index=True)
+    menu = models.ForeignKey(Menu, on_delete=models.SET_NULL, blank=False, null=True, verbose_name='菜单',
+                             db_index=True)
+    class Meta:
+        verbose_name = '子菜单'
+        verbose_name_plural = '子菜单管理'
+
+    def __str__(self):
+        return self.subname
 
 
 class Notice(models.Model):
