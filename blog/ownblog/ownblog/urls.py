@@ -18,7 +18,8 @@ from django.urls import path
 from django.views.generic.base import RedirectView
 from . import views
 from django.urls import include
-
+from django.conf import settings
+from django.conf.urls.static import static
 # 设置登录页
 admin.site.site_title = '管理后台'
 admin.site.site_header = '博客管理后台'
@@ -51,4 +52,4 @@ urlpatterns = [
     path('no', views.no),
     path('mdeditor/', include('mdeditor.urls')),
     path('simplepro/info/',views.simplepro_info)
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

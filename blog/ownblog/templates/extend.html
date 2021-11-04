@@ -43,19 +43,37 @@
     </script>
 {% endif %}
 <header>
-    <div class="top">
+    <div class="fixed top">
         <div class="container">
             <ul class="nav navbar-nav">
                 <a href="/" class="navbar-brand">
                     <img class="logo" src="{% static 'images/logo.png' %}">
                 </a>
                 {% for menu in commonData.menus %}
-                    <li><a class="af nav-af" href="{{ menu.href }}">
-                        <span class="{{ menu.icon }}"></span>
-                        <span>{{ menu.name }}</span>
-                    </a></li>
+                    <ul class="nav navbar-nav">
+                        <ul class="sub">
+                    {% for submenu in commonData.submenus %}
+                        {% if menu.id == submenu.menu_id %}
+                            <li><a class="af nav-af" href="{{ submenu.subhref }}">
+                                <span>{{ submenu.subname }}</span>
+                            </a></li>
+                        {% endif %}
+
+                    {% endfor %}
+                        </ul>
+
+                        <li class="{% if menu.hassub == True %}menu{% endif %}" >
+                            <a class="af nav-af" href="{{ menu.href }}">
+                                <span class="{{ menu.icon }}"></span>
+                                <span>{{ menu.name }}</span>
+                            </a>
+                        </li>
+                    </ul>
                 {% endfor %}
+
+
             </ul>
+
             <ul class="nav navbar-right navbar-userinfo">
                 {% if request.session.member %}
                     <li><a href="{{ request.session.member.url }}" target="_blank">
@@ -67,6 +85,20 @@
                             class="glyphicon glyphicon-user"></i>登录</a></li>
                 {% endif %}
             </ul>
+            <ul class="header-search nav navbar-right">
+                <div class="search-input">
+                    <form target="_blank" role="search" method="get" id="searchform"
+                          action="{% url 'haystack_search' %}">
+                        <div class="input-group">
+                            <input type="search" name="q" class="form-control" placeholder="搜索关键词"
+                                   aria-describedby="basic-addon1">
+                            <span class="input-group-addon" id="basic-addon1">
+                              <i class="glyphicon glyphicon-search"></i>
+                          </span>
+                        </div>
+                    </form>
+                </div>
+            </ul>
         </div>
     </div>
     {% block navbar %}
@@ -75,31 +107,38 @@
 </header>
 {% block banner %}
 {% endblock %}
-<div class="container content-wrap">
+<div class="container content-wrap width100 ">
     {% block main %}
         <div class="row">
-            <div class="col-md-9">
-                {% block body %}{% endblock %}
-            </div>
             <div class="col-md-3 notice-box">
-                <div class="block">
-                    <div class="search-input">
-                        <form target="_blank" role="search" method="get" id="searchform"
-                              action="{% url 'haystack_search' %}">
-                            <div class="input-group">
-                                <input type="search" name="q" class="form-control" placeholder="搜索关键词"
-                                       aria-describedby="basic-addon1">
-                                <span class="input-group-addon" id="basic-addon1">
-                                  <i class="glyphicon glyphicon-search"></i>
-                              </span>
-                            </div>
-                        </form>
+                <!--个人名片-->
+                <div class="block card-wrap card-info">
+                    <div  class="avatar-info">
+                        <span class="el-avatar el-avatar--circle" style="height: 80px; width: 80px; line-height: 80px;">
+                            <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202007%2F10%2F20200710203050_yqgtm.jpg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1638345474&t=19908636f9868c4fa39149adcaa014a7">
+                        </span>
+                        <p data-v-6d37bf5c="">Kevin</p>
+                    </div>
+                    <div class="data-info">
+                        <div class="data-info-item">
+                            <p class="data-info-item-title">文章</p>
+                            <p class="data-info-item-data">44</p>
+                        </div>
+                        <div class="data-info-item">
+                            <p class="data-info-item-title">标签</p>
+                            <p class="data-info-item-data">11</p>
+                        </div>
+                    </div>
+                    <div class="add-bookmark">
+                        <i class="el-icon-s-flag"></i>
+                          加入书签
                     </div>
                 </div>
+
                 <div class="block">
                     <div class="block-main">
-                        <a href="https://www.wezoz.com?source=88cto.com" target="_blank">
-                            <img src="{% static '/images/wenat_ad.gif' %}" width="100%">
+                        <a href="https://baike.baidu.com/item/蝴蝶效应/13502" target="_blank">
+                            <img src="{% static '/images/蝴蝶效应.png' %}" width="100%">
                         </a>
                     </div>
                 </div>
@@ -111,7 +150,7 @@
                             <div class="item">
                                 <div class="img">
                                     <a href="{% url 'article' r.sid %}">
-                                        <img src="{{ r.image|url }}!100"/>
+                                        <img src="/upload{{ r.image|url }}"/>
                                     </a>
                                 </div>
                                 <div class="info">
@@ -128,7 +167,9 @@
 
                     </div>
                 </div>
-
+            </div>
+            <div class="col-md-9">
+                {% block body %}{% endblock %}
             </div>
         </div>
     {% endblock %}
@@ -220,6 +261,9 @@
     {#var ad_type = 'domain';#}
 {#</script>#}
 {#<script type="text/javascript" src="{% static 'js/ad.js' %}"></script>#}
+<!--{#<script type="text/javascript" src="{% static 'js/bg.js' %}"></script>#}-->
+<!--<script type="text/javascript" src="{% static 'js/bg.js' %}"></script>-->
+<script type="text/javascript" src="{% static 'js/slide.js' %}"></script>
 <script type="text/javascript" async src="https://w.cnzz.com/c.php?id=1261750977&async=1"></script>
 <script type="text/javascript" async src="https://zz.bdstatic.com/linksubmit/push.js"></script>
 <script type="text/javascript" async src="https://robot.ownthink.com/bot/js/robot.js?appid=xiaosi"></script>
