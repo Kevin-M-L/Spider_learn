@@ -26,7 +26,7 @@ from .utils import cache
 
 
 def __get_home_data():
-    fields = ('sid', 'image', 'title', 'subject', 'createDate', 'hits', 'category__alias', 'category__name')
+    fields = ('sid', 'image', 'title', 'subject', 'createDate', 'hits', 'category__alias', 'category__name','content','bannericon')
     return {
         "tops": list(Article.objects.filter(top=True).order_by('-id').values(*fields)),
         "articles": list(Article.objects.filter(top=False).order_by("-id").values(*fields)[:10])
@@ -41,6 +41,8 @@ def home(request):
 
 # 文章详情
 def detail(request, id):
+    articles = Article.objects.values('image', 'category__alias', 'category__name', 'sid','title', 'subject', 'tags', 'hits').order_by("-id")
+    tags = Article.objects.values('tags').distinct()
     query_set = {}
     # 如果是数字就是id，不是就是sid
     if id.isdigit():
@@ -85,7 +87,9 @@ def detail(request, id):
         'article': article,
         'sid': sid,
         'comment': comment,
-        'recommends': recommends
+        'recommends': recommends,
+        'articles': articles,
+        'tags': tags
     })
 
 

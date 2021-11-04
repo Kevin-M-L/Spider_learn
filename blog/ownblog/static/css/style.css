@@ -8,9 +8,6 @@
   .search-input {
     display: none;
   }
-  .content-wrap {
-    margin-top: 20px;
-  }
   .col-lg-1,
   .col-lg-10,
   .col-lg-11,
@@ -86,9 +83,6 @@
   .article .toc:before {
     content: "";
   }
-  .content-wrap {
-    margin-top: 0px !important;
-  }
   .content-wrap .breadcrumb {
     display: none;
   }
@@ -145,7 +139,8 @@ header .top {
   background-color: inherit;
 }
 .top a {
-  color: #999;
+    font-weight: 550;
+    color:white;
 }
 .top a:hover,
 .top a:active,
@@ -159,7 +154,7 @@ header .top {
   line-height: 50px;
 }
 .content-wrap {
-  margin-top: 50px;
+  margin-top: 51px;
 }
 .block {
   margin-bottom: 15px;
@@ -774,21 +769,24 @@ header .top {
 }
 .article .toc {
   position: fixed;
-  left: 20px;
-  top: 100px;
+  width: 13%;
+  top: 51px;
   background-color: white;
   color: #929aa2;
-  max-width: 170px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  right: 0;
+  height: 100%;
 }
+ /* 注解注释内容
 .article .toc:before {
   content: '目录';
   display: block;
   border-bottom: #ccc 1px solid;
   padding: 5px 10px;
 }
+*/
 .article .toc a {
   color: #929aa2;
 }
@@ -826,5 +824,223 @@ header .top {
 
 
 .nav :hover ul.sub{
-  display: block;
+    display: block;
+}
+.header-search{
+    max-width: 272px;
+}
+
+.form-control{
+    height: 25px;
+}
+
+.input-group-addon{
+    padding: 0px 5px;
+}
+
+.fixed{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000000;
+}
+
+.card-wrap{
+    padding: 1rem 1.2rem;
+    border-radius: 8px;
+    background: #fff;
+    transition: all .3s;
+    transition: all .5s ease!important;
+}
+.card-wrap.card-info {
+    color: #333;
+}
+
+.avatar-info{
+    text-align: center;
+    font-weight: 600;
+}
+
+.el-avatar--circle {
+    border-radius: 50%;
+}
+
+.el-avatar {
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+    overflow: hidden;
+    color: #fff;
+    background: #c0c4cc;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+}
+
+.avatar-info img {
+    transform: none;
+}
+.theme-default-content.custom img {
+    max-width: 100%;
+}
+.el-avatar>img {
+    display: block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.card-wrap.card-info .data-info {
+    display: flex;
+    padding: .7rem 0;
+    text-align: center;
+}
+
+.card-wrap.card-info .data-info .data-info-item {
+    cursor: pointer;
+    flex: 1;
+}
+
+.card-wrap.card-info .data-info .data-info-item .data-info-item-data {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.card-wrap.card-info .data-info .data-info-item .data-info-item-data {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.card-wrap.card-info .add-bookmark{
+    cursor: pointer;
+    background-color: #333;
+    color: #fff;
+    line-height: 3rem;
+    text-align: center;
+    font-size: 14px;
+    transition: all .3s ease;
+}
+
+.card-wrap.card-info .add-bookmark i {
+    position: relative;
+    top: 1px;
+}
+.flex{
+    display: flex;
+}
+
+li{
+    list-style: none;
+
+}
+
+
+.hd {
+    width: 25%;
+    height: 300px;
+    position: absolute;
+    right: 0px;
+    padding: 5px;
+    overflow: hidden;
+}
+.hd ul{
+    margin: 0px;
+    padding: 0px;
+}
+.hd ul li {
+    width: 100%;
+    height: 52px;
+    text-align: left;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.hd ul li img {
+    display: inline-block;
+    width: 52px;
+    height: 52px;
+    border-radius: 4px;
+    vertical-align: bottom;
+    vertical-align: middle;
+}
+
+.carousel-control.right {
+    right: 25%;
+}
+
+.hd ul li.on span{ color:#0082FC ;transform: translate3d(0,0,0);}
+
+.carousel-indicators{
+    left:37.5%;
+}
+.aritcle-item1{
+    width: 50%;
+}
+.aritcle-item .cover1 {
+    height: 100%;
+}
+
+.aritcle-item .col-md-81 {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px
+}
+
+.detail-item{
+    margin-left: 23%;
+}
+.nav-menu{
+    width:20%;
+    background-color: #304156;
+    height: 100%;
+}
+.nav-menu a{
+    color: #bfcbd9;
+    font-weight: 600;
+}
+.width100{
+    width: 100%;
+}
+
+.submenu{
+    margin-left: 20px;
+    display: none;
+}
+
+.mainmenu{
+
+}
+
+.mainmenu:hover .submenu{
+    display: block;
+}
+
+.mainmenu:hover .submenu{
+    color: red;
+}
+
+
+.breadcrumb{
+    margin-bottom: 8px;
+    width: 66%;
+    position: fixed;
+}
+.article .toc:before {
+    content: unset;
+
+}
+
+.fix{
+    position: fixed;
+}
+
+.margin-content{
+    padding-top: 36px;
+}
+
+.width89{
+    width: 90%;
 }

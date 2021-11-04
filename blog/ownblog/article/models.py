@@ -34,6 +34,7 @@ class Article(models.Model):
     content = MDTextField(verbose_name='内容')
     subject = models.TextField(verbose_name='简介', editable=False)
     image = models.ImageField(upload_to='static/images/', verbose_name='封面', blank=True, null=True, db_index=True)
+    bannericon = models.ImageField(upload_to='static/images/icon', verbose_name='轮播图标', blank=True, null=True, db_index=True)
     createDate = models.DateTimeField(verbose_name='创建日期', auto_now_add=True)
     tags = models.CharField(max_length=256, verbose_name='标签', blank=True, null=True)
     top_choices = ((0, '否'),
